@@ -1,0 +1,27 @@
+:root {
+  font-size: 20px;
+}
+
+form {
+  width: 350px;
+  padding: 10px;
+}
+
+div.field {
+  margin-bottom: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label,
+button {
+  font-weight: bold;
+}
+input,
+button {
+  border-radius: 7px;
+  border: 1px grey solid;
+  padding: 4px;
+}
