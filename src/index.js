@@ -17,7 +17,7 @@ const formFields = {
     const label = document.querySelector('label[for="zip-code"]');
     const input = document.querySelector("input#zip-code");
     const constraint = new RegExp(
-      `\\b${this.country.value.toUpperCase()}\\d{4}\\b`,
+      `\\b${this.country.input.value.toUpperCase()}\\d{4}\\b`,
     );
     return { label, input, constraint };
   },
@@ -28,11 +28,9 @@ const formFields = {
     return { label, input, constraint };
   },
   get confirmPassword() {
-    const label = document.querySelector('label[for="confirm-passsword"]');
+    const label = document.querySelector('label[for="confirm-password"]');
     const input = document.querySelector("input#confirm-password");
-    const constraint = new RegExp(
-      `\\b${this.password.value.toUpperCase()}\\d{4}\\b`,
-    );
+    const constraint = new RegExp(`\\b${this.password.input.value}\\b`);
     return { label, input, constraint };
   },
   get submit() {
@@ -42,16 +40,53 @@ const formFields = {
 
 const fieldStyle = {
   invalid(formField, errorMessage) {
-    const errorSpan = document.createElement("span");
+    const errorSpan = formField.label.children[0];
     errorSpan.style.color = "red";
     errorSpan.style.fontSize = "0.8rem";
-    errorSpan.innerHTML = errorMessage;
-    formField.label.append(errorSpan);
+    errorSpan.innerHTML = ` * ${errorMessage}`;
     formField.input.style.outlineColor = "red";
   },
   valid(formField) {
-    const errorSpan = formElement.label.children[0];
-    if (errorSpan) formElement.label.removeChild(errorSpan);
-    formElement.input.style.outlineColor = "#33CC33";
+    const errorSpan = formField.label.children[0];
+    errorSpan.innerHTML = "";
+    formField.input.style.outlineColor = "#33CC33";
   },
 };
+
+(function events() {
+  window.addEventListener("load", () => {
+    formFields.zipCode.input.placeholder = `${formFields.country.input.value.toUpperCase()}0000`;
+  });
+  formFields.submit.addEventListener("click", (e) => {
+    checkConstraint(formFields.email, "This field is empty");
+    checkConstraint(formFields.password, "This field is empty");
+    checkConstraint(formFields.zipCode, "This field is empty");
+    e.preventDefault();
+  });
+  formFields.country.input.addEventListener("change", () => {
+    formFields.zipCode.input.placeholder = `${formFields.country.input.value.toUpperCase()}0000`;
+    if (formFields.zipCode.input.value)
+      checkConstraint(formFields.zipCode, "This zip code is not valid.");
+  });
+
+  formFields.email.input.addEventListener("input", () => {
+    checkConstraint(formFields.email, "This email address is not valid.");
+  });
+  formFields.zipCode.input.addEventListener("input", () => {
+    checkConstraint(formFields.zipCode, "This zip code is not valid.");
+  });
+  formFields.password.input.addEventListener("input", () => {
+    checkConstraint(formFields.password, "This password is not valid.");
+  });
+  formFields.confirmPassword.input.addEventListener("input", () => {
+    checkConstraint(formFields.confirmPassword, "The passwords don't match.");
+  });
+
+  function checkConstraint(formField, errorMessage) {
+    if (!formField.constraint.test(formField.input.value)) {
+      fieldStyle.invalid(formField, errorMessage);
+    } else {
+      fieldStyle.valid(formField);
+    }
+  }
+})();
