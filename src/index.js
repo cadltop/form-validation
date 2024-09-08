@@ -5,7 +5,8 @@ const formElements = {
   get email() {
     const label = document.querySelector('label[for="email"]');
     const input = document.querySelector("input#email");
-    return { label, input };
+    const constraint = new RegExp("[a-z0-9._%+-]+@(gmail|outlook)+.com$");
+    return { label, input, constraint };
   },
   get country() {
     const label = document.querySelector('label[for="country"]');
@@ -15,17 +16,24 @@ const formElements = {
   get zipCode() {
     const label = document.querySelector('label[for="zip-code"]');
     const input = document.querySelector("input#zip-code");
-    return { label, input };
+    const constraint = new RegExp(
+      `\\b${this.country.value.toUpperCase()}\\d{4}\\b`,
+    );
+    return { label, input, constraint };
   },
   get password() {
     const label = document.querySelector('label[for="password"]');
     const input = document.querySelector("input#password");
-    return { label, input };
+    const constraint = new RegExp("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
+    return { label, input, constraint };
   },
   get confirmPassword() {
     const label = document.querySelector('label[for="confirm-passsword"]');
     const input = document.querySelector("input#confirm-password");
-    return { label, input };
+    const constraint = new RegExp(
+      `\\b${this.password.value.toUpperCase()}\\d{4}\\b`,
+    );
+    return { label, input, constraint };
   },
   get submit() {
     return document.querySelector("form button");
@@ -33,7 +41,7 @@ const formElements = {
 };
 
 const ElementStyle = {
-  styleInvalid(formElement, errorMessage) {
+  invalid(formElement, errorMessage) {
     const errorSpan = document.createElement("span");
     errorSpan.style.color = "red";
     errorSpan.style.fontSize = "0.8rem";
@@ -41,8 +49,9 @@ const ElementStyle = {
     formElement.label.append(errorSpan);
     formElement.input.style.outlineColor = "red";
   },
-  styleValid(formElement) {
-    formElement.label.removeChild(formElement.label.children[0]);
+  valid(formElement) {
+    const errorSpan = formElement.label.children[0];
+    if (errorSpan) formElement.label.removeChild(formElement.label.children[0]);
     formElement.input.style.outlineColor = "#33CC33";
   },
 };
