@@ -1,21 +1,31 @@
 import "normalize.css";
 import "./index.css";
 
-const formInputs = {
+const formElements = {
   get email() {
-    return document.querySelector("form input#email");
+    const label = document.querySelector('label[for="email"]');
+    const input = document.querySelector("input#email");
+    return { label, input };
   },
   get country() {
-    return document.querySelector("form select#country");
+    const label = document.querySelector('label[for="country"]');
+    const select = document.querySelector("select#country");
+    return { label, select };
   },
   get zipCode() {
-    return document.querySelector("form input#zip-code");
+    const label = document.querySelector('label[for="zip-code"]');
+    const input = document.querySelector("input#zip-code");
+    return { label, input };
   },
   get password() {
-    return document.querySelector("form input#password");
+    const label = document.querySelector('label[for="password"]');
+    const input = document.querySelector("input#password");
+    return { label, input };
   },
   get confirmPassword() {
-    return document.querySelector("form input#confirm-password");
+    const label = document.querySelector('label[for="confirm-passsword"]');
+    const input = document.querySelector("input#confirm-password");
+    return { label, input };
   },
   get submit() {
     return document.querySelector("form button");
