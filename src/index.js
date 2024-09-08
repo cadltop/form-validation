@@ -9,8 +9,8 @@ const formElements = {
   },
   get country() {
     const label = document.querySelector('label[for="country"]');
-    const select = document.querySelector("select#country");
-    return { label, select };
+    const input = document.querySelector("select#country");
+    return { label, input };
   },
   get zipCode() {
     const label = document.querySelector('label[for="zip-code"]');
@@ -29,5 +29,20 @@ const formElements = {
   },
   get submit() {
     return document.querySelector("form button");
+  },
+};
+
+const ElementStyle = {
+  styleInvalid(formElement, errorMessage) {
+    const errorSpan = document.createElement("span");
+    errorSpan.style.color = "red";
+    errorSpan.style.fontSize = "0.8rem";
+    errorSpan.innerHTML = errorMessage;
+    formElement.label.append(errorSpan);
+    formElement.input.style.outlineColor = "red";
+  },
+  styleValid(formElement) {
+    formElement.label.removeChild(formElement.label.children[0]);
+    formElement.input.style.outlineColor = "#33CC33";
   },
 };
