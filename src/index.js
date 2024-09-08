@@ -1,7 +1,7 @@
 import "normalize.css";
 import "./index.css";
 
-const formElements = {
+const formFields = {
   get email() {
     const label = document.querySelector('label[for="email"]');
     const input = document.querySelector("input#email");
@@ -40,18 +40,18 @@ const formElements = {
   },
 };
 
-const ElementStyle = {
-  invalid(formElement, errorMessage) {
+const fieldStyle = {
+  invalid(formField, errorMessage) {
     const errorSpan = document.createElement("span");
     errorSpan.style.color = "red";
     errorSpan.style.fontSize = "0.8rem";
     errorSpan.innerHTML = errorMessage;
-    formElement.label.append(errorSpan);
-    formElement.input.style.outlineColor = "red";
+    formField.label.append(errorSpan);
+    formField.input.style.outlineColor = "red";
   },
-  valid(formElement) {
+  valid(formField) {
     const errorSpan = formElement.label.children[0];
-    if (errorSpan) formElement.label.removeChild(formElement.label.children[0]);
+    if (errorSpan) formElement.label.removeChild(errorSpan);
     formElement.input.style.outlineColor = "#33CC33";
   },
 };
