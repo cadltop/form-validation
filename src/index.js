@@ -38,18 +38,14 @@ const formFields = {
   },
 };
 
-const fieldStyle = {
+const writeSpan = {
   invalid(formField, errorMessage) {
     const errorSpan = formField.label.children[0];
-    errorSpan.style.color = "red";
-    errorSpan.style.fontSize = "0.8rem";
     errorSpan.innerHTML = ` * ${errorMessage}`;
-    formField.input.style.outlineColor = "red";
   },
   valid(formField) {
     const errorSpan = formField.label.children[0];
     errorSpan.innerHTML = "";
-    formField.input.style.outlineColor = "#33CC33";
   },
 };
 
@@ -84,9 +80,9 @@ const fieldStyle = {
 
   function checkConstraint(formField, errorMessage) {
     if (!formField.constraint.test(formField.input.value)) {
-      fieldStyle.invalid(formField, errorMessage);
+      writeSpan.invalid(formField, errorMessage);
     } else {
-      fieldStyle.valid(formField);
+      writeSpan.valid(formField);
     }
   }
 })();

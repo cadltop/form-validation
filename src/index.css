@@ -25,3 +25,15 @@ button {
   border: 1px grey solid;
   padding: 4px;
 }
+
+label > span {
+  color: red;
+  font-size: 0.8rem;
+}
+
+input:invalid {
+  outline-color: red;
+}
+input:valid {
+  outline-color: #33cc33;
+}
